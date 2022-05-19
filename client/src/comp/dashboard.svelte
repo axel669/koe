@@ -1,5 +1,6 @@
 <script>
     import {
+        Avatar,
         Button,
         Paper,
         Select,
@@ -34,9 +35,11 @@
     }
 </script>
 
-<Paper width="min(100%, 720px)" center>
+<Paper width="min(100%, 720px)" center square>
     <TitleBar sticky slot="title">
-        RTC Dashboard?
+        <Avatar image={$user.profileImage} />
+        &nbsp;
+        {$user.displayName}
     </TitleBar>
 
     <Flex>
