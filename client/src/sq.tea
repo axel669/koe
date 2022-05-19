@@ -1,0 +1,38 @@
+import { writable } from "svelte/store"
+
+import { gspeech } from "./speech.tea"
+
+# export let speeches <+ writable([])
+
+let q <+ []
+
+export let speaking <+ writable(false)
+fn playNext {
+    gspeech(
+        q[0][0]
+        q[0][1]
+        fn => speaking.set(true)
+        fn {
+            q.shift()
+
+            if q.length == 0 {
+                speaking.set(false)
+                => void
+            }
+
+            playNext()
+        }
+    )
+}
+export fn play {
+    @text
+    @preset
+
+    q.push([text, preset])
+
+    if q.length != 1 {
+        => void
+    }
+
+    playNext()
+}

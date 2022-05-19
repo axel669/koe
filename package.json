@@ -1,0 +1,21 @@
+{
+  "name": "voice-stuff",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy:register": "aws-deploy func:register",
+    "deploy:settings": "aws-deploy func:settings",
+    "deploy:settings-save": "aws-deploy func:settings-save",
+    "deploy:overlay-settings": "aws-deploy func:overlay-settings",
+    "deploy:send": "aws-deploy func:send"
+  },
+  "author": "Axel",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-lambda": "^3.87.0",
+    "@axel669/aws-deploy": "^0.1.0",
+    "adm-zip": "^0.5.9",
+    "uuid": "^8.3.2"
+  }
+}

@@ -1,0 +1,20 @@
+region: us-west-1
+prodTag: live
+
+functions:
+  send:
+    dir: "service/rtc-send"
+  register:
+    dir: "service/rtc-register"
+  settings:
+    dir: "service/hermod_rtc-settings"
+  settings-save:
+    dir: "service/hermod_rtc-settings-save"
+  overlay-settings:
+    dir: "service/hermod_rtc-overlay-settings"
+
+deployment:
+  - "func:send"
+  - "func:register"
+  - "func:settings"
+  - "func:settings-save"
