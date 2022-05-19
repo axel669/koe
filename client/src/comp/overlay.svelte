@@ -10,13 +10,13 @@
     )
 
     const channel = pusher.subscribe($user.roomID)
-    const targetID = "3eaf48cf-26cf-450a-a64b-95ce250e58b3"
+    // const targetID = "3eaf48cf-26cf-450a-a64b-95ce250e58b3"
     channel.bind(
         "redeem",
         function (data) {
             const id = data.message.event.reward.id
 
-            if (id !== targetID) {
+            if (id !== settings.redeem) {
                 return
             }
 
@@ -33,8 +33,6 @@
     channel.bind(
         "settings",
         function(data) {
-            // console.log("updated settings!")
-            // console.log(data.timestamp)
             settings = data
         }
     )
