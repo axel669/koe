@@ -1,0 +1,4 @@
+[[redirects]]
+    from = "/overlay/*"
+    to = "index.html"
+    status = 200
