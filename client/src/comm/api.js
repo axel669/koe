@@ -9,6 +9,21 @@ function postJSON(route, data, options) {
     return http.postJSON(`${apiURL}${route}`, data, options)
 }
 
+async function query(queries) {
+    const response = await postJSON("/core", queries)
+
+    return Object.fromEntries(
+        Object.entries(response).map(
+            function ([key, item]) {
+                if (item.error !== undefined) {
+                    return [key, new Error(item.error)]
+                }
+                return [key, item.value]
+            }
+        )
+    )
+}
+
 async function login(key) {
     const result = await postJSON(
         "/login",
@@ -33,6 +48,9 @@ async function saveSettings(settings) {
 async function loadOverlaySettings(info) {
     return await postJSON("/overlay/settings", info)
 }
+async function main(callInfo) {
+    return await postJSON("/", callInfo)
+}
 
 export default {
     login,
@@ -40,4 +58,6 @@ export default {
     loadSettings,
     saveSettings,
     loadOverlaySettings,
+    main,
+    query,
 }

@@ -17,6 +17,8 @@
     import user from "@/state/user"
     import twitch from "@/comm/twitch"
 
+    window.api = api
+
     const overlayURL = `${document.location.origin}/overlay/${$user.userID}/${$settings.rtcID}`
 
     function copyURL() {
@@ -38,9 +40,53 @@
             preset,
             redeem,
         }
-        console.log(
-            await api.saveSettings(newSettings)
+        await api.query({
+            "success:koe.update": newSettings,
+        })
+        // console.log(
+        //     await api.saveSettings(newSettings)
+        // )
+    }
+
+    // const imageList = api.main({
+    //     "imageList:images.list": {}
+    // }).then(res => res.imageList.value)
+
+    async function fileStuff(event) {
+        const files = event.target.files
+
+        // console.log(files)
+
+        const {type, name} = files[0]
+        const [ext] = name.split(".").slice(-1)
+
+        const buffer = await new Promise(
+            resolve => {
+                const reader = new FileReader()
+                reader.addEventListener(
+                    "load",
+                    () => resolve(reader.result)
+                )
+                reader.readAsDataURL(files[0])
+            }
         )
+        const [, data] = buffer.split(",")
+
+        console.log(
+            await api.main({
+                "file:upload": {
+                    type,
+                    ext,
+                    data,
+                }
+            })
+        )
+        // const extension = files[0]
+        event.target.value = ""
+
+        // console.log(
+        //     buffer.match(/data:(?<type>.+?)(;base64)?,(?<data>.+)/).groups
+        // )
     }
 
     twitch.rewards($user.userID)
@@ -58,6 +104,17 @@
             }
         )
 </script>
+
+<style>
+    div.image-thing {
+        width: 100%;
+        height: 320px;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: var(--image);
+    }
+</style>
 
 <Paper width="min(100%, 720px)" center square>
     <TitleBar sticky slot="title">
@@ -84,6 +141,16 @@
                     Save
                 </Button>
             </Paper>
+
+            <!-- <input type="file" value="" on:change={fileStuff} /> -->
+
+            <!-- {#await imageList}
+                <div>Loading images?</div>
+            {:then images}
+                {#each images as image}
+                    <div class="image-thing" style="--image: url('https://image.axel669.net/{image}');" />
+                {/each}
+            {/await} -->
         </Flex>
     {/if}
 </Paper>

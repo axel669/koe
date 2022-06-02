@@ -46,9 +46,14 @@ const user = writable(
             return
         }
 
-        settings.set(
-            await api.loadSettings()
-        )
+        const {koeSettings} = await api.query({
+            "koeSettings:koe.load": {}
+        })
+        if (Err(koeSettings)) {
+            set(false)
+            return
+        }
+        settings.set(koeSettings)
 
         user.profileImage = twitchUserInfo.profile_image_url
         set(user)

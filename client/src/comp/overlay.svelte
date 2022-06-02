@@ -10,7 +10,6 @@
     )
 
     const channel = pusher.subscribe($user.roomID)
-    // const targetID = "3eaf48cf-26cf-450a-a64b-95ce250e58b3"
     channel.bind(
         "redeem",
         function (data) {
